@@ -6,7 +6,7 @@ import 'src/routes/app_pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize ThemeController with ThemeService
   final themeController = Get.put(ThemeController());
   await themeController.loadThemeSettings();
@@ -15,7 +15,6 @@ void main() async {
     GetMaterialApp(
       title: 'Your App Name',
       theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
       themeMode: themeController.themeMode,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
