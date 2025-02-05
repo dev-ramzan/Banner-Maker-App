@@ -2,19 +2,22 @@ name: banner_app
 description: "A new Flutter project."
 
 # Prevent accidental publishing to pub.dev.
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
+  sdk: ">=3.4.3 <4.0.0"
 
 dependencies:
+  carousel_slider: ^5.0.0
   flutter:
     sdk: flutter
+  flutter_floating_bottom_bar: ^1.2.1+1
   flutter_localizations:
     sdk: flutter
-  get: ^4.6.6   
+  get: ^4.6.6
+  video_player: ^2.9.2
 
 dev_dependencies:
   flutter_test:

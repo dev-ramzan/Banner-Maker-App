@@ -1,5 +1,5 @@
-import 'package:banner_app/src/modules/splash/views/spash_view.dart';
-import 'package:flutter/material.dart';
+import 'package:banner_app/src/modules/home/view/home_view.dart';
+import 'package:banner_app/src/modules/intro/views/intro_view.dart';
 import 'package:get/get.dart';
 
 class AppPages {
@@ -11,16 +11,17 @@ class AppPages {
     // Define each route with GetPage
     GetPage(
       name: Routes.SPLASH,
-      page: () => SpashView(),
+      page: () => const IntroView(),
     ),
-    // GetPage(
-    //   name: Routes.INTRO,
-    //   page: () => IntroScreen(),
-    // ),
+    GetPage(
+      name: Routes.HOME,
+      page: () => const HomeView(),
+    ),
   ];
 }
 
 abstract class Routes {
-  static const SPLASH = '/';
+  static const SPLASH = '/splash';
   static const INTRO = '/intro';
+  static const HOME = '/home';
 }
