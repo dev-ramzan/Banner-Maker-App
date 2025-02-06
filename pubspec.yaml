@@ -17,6 +17,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   get: ^4.6.6
+  lucide_icons: ^0.257.0
   video_player: ^2.9.2
 
 dev_dependencies:
