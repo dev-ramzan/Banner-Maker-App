@@ -1,4 +1,5 @@
 import 'package:banner_app/src/core/values/app_color.dart';
+import 'package:banner_app/src/modules/home/bottom_navigation/explore/search_items/search_items.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
@@ -12,6 +13,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: showBackButon,
+      iconTheme: const IconThemeData(color: Colors.white),
       backgroundColor: AppColor.darkGreen,
       elevation: 0,
       title: Text(
@@ -30,11 +32,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         IconButton(
           icon: const Icon(LucideIcons.search, color: Colors.white),
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: const Icon(LucideIcons.settings, color: Colors.white),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SearchItems()),
+            );
+          },
         ),
       ],
     );

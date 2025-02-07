@@ -1,3 +1,4 @@
+import 'package:banner_app/src/core/values/app_color.dart';
 import 'package:banner_app/src/modules/home/bottom_navigation/create/create.dart';
 import 'package:banner_app/src/modules/home/bottom_navigation/explore/explore_banner.dart';
 import 'package:banner_app/src/modules/home/bottom_navigation/home/home_banner.dart';
@@ -49,19 +50,19 @@ class _HomeViewState extends State<HomeView>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        extendBody: true, // Makes bottom bar float over body content
+        resizeToAvoidBottomInset: false,
         body: BottomBar(
           fit: StackFit.loose,
-          barColor: Colors.transparent, // No solid background for glass effect
-          borderRadius: BorderRadius.circular(30),
-          duration: const Duration(milliseconds: 600), // Smooth animation
-          curve: Curves.fastOutSlowIn, // Elegant transition effect
+          barColor: Colors.transparent, // Glassmorphic effect
+
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.fastOutSlowIn,
           showIcon: true,
-          hideOnScroll: true, // Hide bar when scrolling
-          scrollOpposite: true, // Keep icon visible when scrolling up
-          iconHeight: 40,
-          iconWidth: 40,
-          width: MediaQuery.of(context).size.width * 0.9,
+          hideOnScroll: true,
+          scrollOpposite: true,
+          iconHeight: 50,
+          iconWidth: 50,
+          width: MediaQuery.of(context).size.width,
           reverse: false,
           barAlignment: Alignment.bottomCenter,
           body: (context, controller) => TabBarView(
@@ -70,38 +71,31 @@ class _HomeViewState extends State<HomeView>
             children: _screens,
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(30),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.blue.shade900, Colors.purpleAccent.shade200],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+            borderRadius: BorderRadius.circular(20),
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                // Background Bar
+                Container(
+                  height: 75,
+                  decoration: BoxDecoration(
+                    color: AppColor.darkGreen,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 10,
+                        spreadRadius: 3,
+                        offset: const Offset(0, 5),
+                      )
+                    ],
+                  ),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 10,
-                    spreadRadius: 3,
-                    offset: const Offset(0, 5),
-                  )
-                ],
-              ),
-              child: TabBar(
-                controller: _tabController,
-                indicator: UnderlineTabIndicator(
-                  borderSide: BorderSide(
-                      width: 4, color: Colors.white.withOpacity(0.8)),
-                  insets: const EdgeInsets.symmetric(horizontal: 16),
+                // Floating Icons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: List.generate(5, (index) => _buildTab(index)),
                 ),
-                tabs: [
-                  _buildTab(Icons.home, 0),
-                  _buildTab(Icons.explore, 1),
-                  _buildTab(Icons.add_circle, 2),
-                  _buildTab(Icons.favorite, 3),
-                  _buildTab(Icons.person, 4),
-                ],
-              ),
+              ],
             ),
           ),
         ),
@@ -109,25 +103,51 @@ class _HomeViewState extends State<HomeView>
     );
   }
 
-// seprate reuseable design widget for tabs
-  Widget _buildTab(IconData icon, int index) {
-    return SizedBox(
-      height: 60,
-      width: 50,
+  ///
+  Widget _buildTab(int index) {
+    List<IconData> icons = [
+      Icons.home,
+      Icons.explore,
+      Icons.search,
+      Icons.add_circle_rounded,
+      Icons.person,
+    ];
+
+    bool isSelected = _currentIndex == index;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _currentIndex = index;
+          _tabController.index = index;
+        });
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
+        height: isSelected ? 55 : 45,
+        width: isSelected ? 70 : 50,
+        margin: EdgeInsets.only(bottom: isSelected ? 10 : 0),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: _currentIndex == index
-              ? Colors.white.withOpacity(0.2)
-              : Colors.transparent,
+          color:
+              isSelected ? Colors.white.withOpacity(0.3) : Colors.transparent,
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: Colors.white.withOpacity(0.4),
+                    blurRadius: 15,
+                    spreadRadius: 1.5,
+                    offset: const Offset(0, 5),
+                  ),
+                ]
+              : [],
         ),
-        child: Center(
-          child: Icon(
-            icon,
-            color: _currentIndex == index ? Colors.white : Colors.grey.shade400,
-            size: _currentIndex == index ? 35 : 30,
-          ),
+        child: Icon(
+          icons[index],
+          color: isSelected
+              ? AppColor.lightGreen
+              : AppColor.lightGreen.withOpacity(0.5),
+          size: isSelected ? 35 : 30, // Bigger icon when selected
         ),
       ),
     );
