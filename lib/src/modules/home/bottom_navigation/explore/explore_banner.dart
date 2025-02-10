@@ -156,7 +156,6 @@ class _ExploreBannerState extends State<ExploreBanner> {
               const SizedBox(
                 height: 5,
               ),
-              // Populating popular categories
               SizedBox(
                 height: 170,
                 width: MediaQuery.of(context).size.width,
