@@ -1,5 +1,6 @@
 import 'package:banner_app/src/core/values/app_color.dart';
 import 'package:banner_app/src/modules/home/bottom_navigation/explore/search_items/search_items.dart';
+import 'package:banner_app/src/modules/home/bottom_navigation/search/search_banners.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
@@ -35,7 +36,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const SearchItems()),
+              MaterialPageRoute(
+                  builder: (context) => SearchItems(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      )),
             );
           },
         ),

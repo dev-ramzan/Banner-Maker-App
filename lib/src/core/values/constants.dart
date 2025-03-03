@@ -8,6 +8,7 @@ class PopularCategories {
   ];
 }
 
+// Popular categories.....##############################################
 class CategoriesTitle {
   static const List<String> CategoriesTitleList = [
     "Album Covers",
@@ -18,6 +19,7 @@ class CategoriesTitle {
   ];
 }
 
+// beautify events.....##############################################
 class BeautifyEvents1 {
   static const List<String> beautifyEventsTitles1 = [
     "Sports",
@@ -38,6 +40,7 @@ class BeautifyEvents2 {
   ];
 }
 
+// explore more categories ###########################
 class ExploreCategories {
   static const List<String> exploreCardTitle = [
     "Education",
@@ -53,7 +56,7 @@ class ExploreCategories {
   ];
 }
 
-// template pictures for chips
+// template pictures for chips ####################################
 
 final Map<String, List<String>> categoryImages = {
   "Album Covers": [

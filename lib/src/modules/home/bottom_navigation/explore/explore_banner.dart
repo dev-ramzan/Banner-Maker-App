@@ -89,11 +89,7 @@ class _ExploreBannerState extends State<ExploreBanner> {
                   ),
                   suffix: GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ExploreBanner()),
-                      );
+                      _searchController.clear();
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(right: 10),

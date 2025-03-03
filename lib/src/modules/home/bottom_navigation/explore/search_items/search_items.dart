@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class SearchItems extends StatefulWidget {
-  const SearchItems({
-    super.key,
-  });
+  final VoidCallback onPressed;
+  const SearchItems({super.key, required this.onPressed});
 
   @override
   State<SearchItems> createState() => _SearchItemsState();
@@ -89,10 +88,8 @@ class _SearchItemsState extends State<SearchItems> {
                     prefixIcon:
                         const Icon(Icons.search, color: AppColor.darkGreen),
                     suffixIcon: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context); // Close the current screen
-                      },
-                      child: const Icon(Icons.close, color: Colors.grey),
+                      onTap: widget.onPressed,
+                      child: const Icon(Icons.close, color: AppColor.darkGreen),
                     ),
                     filled: true,
                     fillColor: Colors.white,

@@ -11,13 +11,21 @@ environment:
 
 dependencies:
   carousel_slider: ^5.0.0
+  file_picker: ^8.3.2
   flutter:
     sdk: flutter
+  flutter_colorpicker: ^1.1.0
   flutter_floating_bottom_bar: ^1.2.1+1
   flutter_localizations:
     sdk: flutter
+  flutter_svg: ^2.0.17
   get: ^4.6.6
+  google_fonts: ^6.2.1
+  image_picker: ^1.1.2
+  json_serializable: ^6.8.0
   lucide_icons: ^0.257.0
+  matrix_gesture_detector_pro: ^1.0.0
+  path_provider: ^2.1.5
   video_player: ^2.9.2
 
 dev_dependencies:
@@ -35,3 +43,5 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/logo/
+    - assets/templates/banner2.json

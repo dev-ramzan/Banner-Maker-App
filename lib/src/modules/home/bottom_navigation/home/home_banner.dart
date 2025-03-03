@@ -1,3 +1,4 @@
+import 'package:banner_app/src/data/services/TemplateEditorScreen.dart';
 import 'package:flutter/material.dart';
 
 class HomeBanner extends StatelessWidget {
@@ -5,11 +6,6 @@ class HomeBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.cyan,
-        child: Center(child: Text('Home Banner sheeet')),
-      ),
-    );
+    return Scaffold();
   }
 }

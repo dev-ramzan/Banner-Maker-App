@@ -1,6 +1,7 @@
 import 'package:banner_app/src/core/common/my_app_bar.dart';
 import 'package:banner_app/src/core/values/app_color.dart';
 import 'package:banner_app/src/core/values/constants.dart';
+import 'package:banner_app/src/modules/home/bottom_navigation/explore/edit_screen/edit_screen.dart';
 import 'package:flutter/material.dart';
 
 class TemplatesScreen extends StatefulWidget {
@@ -114,11 +115,24 @@ class _TemplatesScreenState extends State<TemplatesScreen> {
                         ),
                         itemCount: categoryImages[selectedChip!]!.length,
                         itemBuilder: (context, index) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(
-                              categoryImages[selectedChip!]![index],
-                              fit: BoxFit.cover,
+                          String imagePath =
+                              categoryImages[selectedChip!]![index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditScreen(imagePath: imagePath),
+                                ),
+                              );
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset(
+                                categoryImages[selectedChip!]![index],
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           );
                         },
