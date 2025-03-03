@@ -186,6 +186,48 @@ class TemplateEditorScreenState extends State<TemplateEditorScreen> {
     });
   }
 
+  Widget _buildResizeHandle(bool isSelected, VoidCallback onTap) {
+    return Visibility(
+      visible: isSelected,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: 24,  // Increased size
+          height: 24, // Increased size
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.white, width: 2),
+          ),
+          child: const Icon(
+            Icons.open_with,  // Two-headed diagonal arrow icon
+            color: Colors.white,
+            size: 16,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _handleScale(Map<String, dynamic> element, double scale) {
+    setState(() {
+      final index = elements.indexWhere((e) => e['id'] == element['id']);
+      if (index != -1) {
+        if (element['type'] == 'text') {
+          // More sensitive scaling for text
+          elements[index]['fontSize'] = (element['fontSize'] + scale)
+              .clamp(8.0, 72.0); // Direct addition for smoother scaling
+        } else if (element['type'] == 'image') {
+          // More sensitive scaling for images
+          elements[index]['width'] = 
+              (element['width'] + scale).clamp(50.0, 500.0);
+          elements[index]['height'] = 
+              (element['height'] + scale).clamp(50.0, 500.0);
+        }
+      }
+    });
+  }
+
   Widget _buildElement(Map<String, dynamic> element) {
     bool isSelected = selectedElementId == element['id'];
 
@@ -198,8 +240,17 @@ class TemplateEditorScreenState extends State<TemplateEditorScreen> {
             onTap: () {
               _selectElement(element['id']);
             },
+            onPanUpdate: (details) {
+              setState(() {
+                final index = elements.indexWhere((e) => e['id'] == element['id']);
+                if (index != -1) {
+                  elements[index]['x'] = element['x'] + details.delta.dx;
+                  elements[index]['y'] = element['y'] + details.delta.dy;
+                }
+              });
+            },
             child: Stack(
-              clipBehavior: Clip.none, // Allow delete button to overflow
+              clipBehavior: Clip.none,
               children: [
                 Container(
                   padding: const EdgeInsets.all(4),
@@ -252,26 +303,39 @@ class TemplateEditorScreenState extends State<TemplateEditorScreen> {
                         ),
                 ),
 
-                // Delete button (only when selected)
+                // Modified delete button implementation
                 if (isSelected)
                   Positioned(
                     top: -15,
                     right: -15,
-                    child: InkWell(
-                      onTap: () {
-                        print(
-                            "calledddddd=======================================");
-                        _deleteSelectedElement();
-                      },
+                    child: GestureDetector(  // Changed from InkWell to GestureDetector
+                      behavior: HitTestBehavior.opaque,  // Added this
+                      onTap: _deleteSelectedElement,     // Simplified callback
                       child: Container(
+                        padding: const EdgeInsets.all(8),  // Increased touch target
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.red,
                         ),
-                        padding: const EdgeInsets.all(4),
                         child: const Icon(Icons.close,
                             color: Colors.white, size: 20),
                       ),
+                    ),
+                  ),
+
+                // Add resize handles
+                if (isSelected)
+                  Positioned(
+                    right: -12,
+                    bottom: -12,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onPanUpdate: (details) {
+                        // Simplified scaling calculation
+                        double scale = (details.delta.dy + details.delta.dx) / 2;
+                        _handleScale(element, scale);
+                      },
+                      child: _buildResizeHandle(isSelected, () {}),
                     ),
                   ),
               ],
@@ -289,13 +353,23 @@ class TemplateEditorScreenState extends State<TemplateEditorScreen> {
         return Positioned(
           left: element['x'].toDouble(),
           top: element['y'].toDouble(),
-          child: Stack(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  _selectElement(element['id']);
-                },
-                child: isDeleted
+          child: GestureDetector(
+            onTap: () {
+              _selectElement(element['id']);
+            },
+            onPanUpdate: (details) {
+              setState(() {
+                final index = elements.indexWhere((e) => e['id'] == element['id']);
+                if (index != -1) {
+                  elements[index]['x'] = element['x'] + details.delta.dx;
+                  elements[index]['y'] = element['y'] + details.delta.dy;
+                }
+              });
+            },
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                isDeleted
                     ? const SizedBox()
                     : isSvg
                         ? SvgPicture.asset(
@@ -317,32 +391,48 @@ class TemplateEditorScreenState extends State<TemplateEditorScreen> {
                                 height: element['height'].toDouble(),
                                 fit: BoxFit.cover,
                               ),
-              ),
 
-              // Show Delete Icon when the image is selected
-              if (isSelected && !isDeleted)
-                Positioned(
-                  top: 5,
-                  left: 0,
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        element['isDeleted'] = true;
-                        element['src'] = null;
-                      });
-                    },
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
+                // Show Delete Icon when the image is selected
+                if (isSelected && !isDeleted)
+                  Positioned(
+                    top: 5,
+                    left: 0,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          element['isDeleted'] = true;
+                          element['src'] = null;
+                        });
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.red,
+                        ),
+                        padding: const EdgeInsets.all(4),
+                        child: const Icon(Icons.close,
+                            color: Colors.white, size: 16),
                       ),
-                      padding: const EdgeInsets.all(4),
-                      child: const Icon(Icons.close,
-                          color: Colors.white, size: 16),
                     ),
                   ),
-                ),
-            ],
+
+                // Add resize handles
+                if (isSelected && !isDeleted)
+                  Positioned(
+                    right: -12,
+                    bottom: -12,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onPanUpdate: (details) {
+                        // Simplified scaling calculation
+                        double scale = (details.delta.dy + details.delta.dx) / 2;
+                        _handleScale(element, scale);
+                      },
+                      child: _buildResizeHandle(isSelected, () {}),
+                    ),
+                  ),
+              ],
+            ),
           ),
         );
 
