@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:banner_app/src/modules/home/bottom_navigation/explore/edit_details_screen/text/text.dart';
 import 'package:flutter/material.dart';
@@ -186,23 +187,30 @@ class TemplateEditorScreenState extends State<TemplateEditorScreen> {
     });
   }
 
+// resizing ##################################################################
   Widget _buildResizeHandle(bool isSelected, VoidCallback onTap) {
     return Visibility(
       visible: isSelected,
       child: GestureDetector(
         onTap: onTap,
+        behavior: HitTestBehavior.opaque,
         child: Container(
-          width: 24,  // Increased size
-          height: 24, // Increased size
-          decoration: BoxDecoration(
-            color: Colors.blue,
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.white, width: 2),
-          ),
-          child: const Icon(
-            Icons.open_with,  // Two-headed diagonal arrow icon
-            color: Colors.white,
-            size: 16,
+          width: 50, // Increase touch area width
+          height: 50, // Increase touch area height
+          alignment: Alignment.center, // Centers the icon
+          child: Container(
+            width: 30, // Keep visible icon small
+            height: 30,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 2),
+            ),
+            child: const Icon(
+              LucideIcons.moveDiagonal2,
+              color: Colors.grey,
+              size: 23,
+            ),
           ),
         ),
       ),
@@ -213,18 +221,75 @@ class TemplateEditorScreenState extends State<TemplateEditorScreen> {
     setState(() {
       final index = elements.indexWhere((e) => e['id'] == element['id']);
       if (index != -1) {
-        if (element['type'] == 'text') {
-          // More sensitive scaling for text
-          elements[index]['fontSize'] = (element['fontSize'] + scale)
-              .clamp(8.0, 72.0); // Direct addition for smoother scaling
-        } else if (element['type'] == 'image') {
-          // More sensitive scaling for images
-          elements[index]['width'] = 
-              (element['width'] + scale).clamp(50.0, 500.0);
-          elements[index]['height'] = 
-              (element['height'] + scale).clamp(50.0, 500.0);
+        if (element['type'] == 'icon' || element['type'] == 'image') {
+          double newSize = (element['width'] * scale).clamp(20.0, 300.0);
+          elements[index]['width'] = newSize;
+          elements[index]['height'] = newSize; // Keep aspect ratio
+        } else if (element['type'] == 'text') {
+          double newFontSize = (element['fontSize'] * scale).clamp(8.0, 72.0);
+          elements[index]['fontSize'] = newFontSize;
         }
       }
+    });
+  }
+
+//handling rotation.....###############################################
+  Widget _buildRotateHandle(bool isSelected, VoidCallback onTap) {
+    return Visibility(
+      visible: isSelected,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque, // Ensure taps register
+        onTap: onTap,
+        child: Container(
+          width: 50, // Increase touch area
+          height: 50,
+          alignment: Alignment.center,
+          child: Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 2),
+            ),
+            child: const Icon(
+              LucideIcons.rotateCcw, // Rotation icon
+              color: Colors.grey,
+              size: 23,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _handleRotate(Map<String, dynamic> element, DragUpdateDetails details) {
+    setState(() {
+      final index = elements.indexWhere((e) => e['id'] == element['id']);
+      if (index == -1) return;
+
+      double? width = (elements[index]['width'] as num?)?.toDouble();
+      double? height = (elements[index]['height'] as num?)?.toDouble();
+      double? x = (elements[index]['x'] as num?)?.toDouble();
+      double? y = (elements[index]['y'] as num?)?.toDouble();
+      double currentRotation =
+          (elements[index]['rotation'] as num?)?.toDouble() ?? 0.0;
+
+      if (width == null || height == null || x == null || y == null) return;
+
+      // Get center of element
+      Offset center = Offset(x + (width / 2), y + (height / 2));
+
+      // Use globalPosition for better accuracy
+      Offset touchPosition = details.globalPosition;
+
+      // Calculate the angle from center to touch position
+      double angle = (touchPosition - center).direction; // In radians
+
+      // Convert to degrees and update rotation
+      double newRotation = angle * (180 / pi);
+
+      elements[index]['rotation'] = newRotation;
     });
   }
 
@@ -242,30 +307,58 @@ class TemplateEditorScreenState extends State<TemplateEditorScreen> {
             },
             onPanUpdate: (details) {
               setState(() {
-                final index = elements.indexWhere((e) => e['id'] == element['id']);
+                final index =
+                    elements.indexWhere((e) => e['id'] == element['id']);
                 if (index != -1) {
                   elements[index]['x'] = element['x'] + details.delta.dx;
                   elements[index]['y'] = element['y'] + details.delta.dy;
                 }
               });
             },
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: isSelected
-                      ? BoxDecoration(
-                          border: Border.all(color: Colors.blue, width: 2),
-                        )
-                      : null,
-                  child: isSelected && isEditingText
-                      ? SizedBox(
-                          width: 200, // Adjust width if needed
-                          child: TextField(
-                            controller: textController,
-                            autofocus: true,
-                            style: TextStyle(
+            child: Transform.rotate(
+              angle: (element['rotation'] ?? 0.0) * (3.14159265359 / 180),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: isSelected
+                        ? BoxDecoration(
+                            border: Border.all(color: Colors.blue, width: 2),
+                          )
+                        : null,
+                    child: isSelected && isEditingText
+                        ? SizedBox(
+                            width: 200, // Adjust width if needed
+                            child: TextField(
+                              controller: textController,
+                              autofocus: true,
+                              style: TextStyle(
+                                fontSize: element['fontSize'].toDouble(),
+                                color: Color(int.parse(
+                                        element['color'].substring(1, 7),
+                                        radix: 16) +
+                                    0xFF000000),
+                                fontWeight: element['fontWeight'] == 'bold'
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.zero,
+                              ),
+                              onSubmitted: (newValue) {
+                                _updateText(newValue, newValue);
+                                setState(() {
+                                  isEditingText = false;
+                                });
+                              },
+                            ),
+                          )
+                        : Text(
+                            element['value'],
+                            style: GoogleFonts.getFont(
+                              element['fontFamily'] ?? 'Roboto',
                               fontSize: element['fontSize'].toDouble(),
                               color: Color(int.parse(
                                       element['color'].substring(1, 7),
@@ -275,70 +368,75 @@ class TemplateEditorScreenState extends State<TemplateEditorScreen> {
                                   ? FontWeight.bold
                                   : FontWeight.normal,
                             ),
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.zero,
-                            ),
-                            onSubmitted: (newValue) {
-                              _updateText(newValue, newValue);
-                              setState(() {
-                                isEditingText = false;
-                              });
-                            },
                           ),
-                        )
-                      : Text(
-                          element['value'],
-                          style: GoogleFonts.getFont(
-                            element['fontFamily'] ?? 'Roboto',
-                            fontSize: element['fontSize'].toDouble(),
-                            color: Color(int.parse(
-                                    element['color'].substring(1, 7),
-                                    radix: 16) +
-                                0xFF000000),
-                            fontWeight: element['fontWeight'] == 'bold'
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                          ),
-                        ),
-                ),
+                  ),
 
-                // Modified delete button implementation
-                if (isSelected)
-                  Positioned(
-                    top: -15,
-                    right: -15,
-                    child: GestureDetector(  // Changed from InkWell to GestureDetector
-                      behavior: HitTestBehavior.opaque,  // Added this
-                      onTap: _deleteSelectedElement,     // Simplified callback
-                      child: Container(
-                        padding: const EdgeInsets.all(8),  // Increased touch target
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.red,
+                  // Modified delete button implementation
+                  if (isSelected)
+                    Positioned(
+                      top: -20,
+                      right: -20,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: _deleteSelectedElement,
+                        child: Container(
+                          width: 45,
+                          height: 45,
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 2),
+                            ),
+                            child: const Icon(
+                              LucideIcons.x,
+                              color: Colors.grey,
+                              size: 23,
+                            ),
+                          ),
                         ),
-                        child: const Icon(Icons.close,
-                            color: Colors.white, size: 20),
                       ),
                     ),
-                  ),
 
-                // Add resize handles
-                if (isSelected)
-                  Positioned(
-                    right: -12,
-                    bottom: -12,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onPanUpdate: (details) {
-                        // Simplified scaling calculation
-                        double scale = (details.delta.dy + details.delta.dx) / 2;
-                        _handleScale(element, scale);
-                      },
-                      child: _buildResizeHandle(isSelected, () {}),
+                  // Add resize handles
+                  if (isSelected)
+                    Positioned(
+                      right: -20,
+                      bottom: -20,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onPanUpdate: (details) {
+                          double distance =
+                              (details.delta.dx + details.delta.dy) / 2;
+
+                          double scaleFactor = 1.0 +
+                              (distance *
+                                  0.005); // touch smooth sensitivity if needed
+
+                          _handleScale(element, scaleFactor);
+                        },
+                        child: _buildResizeHandle(isSelected, () {}),
+                      ),
                     ),
-                  ),
-              ],
+
+                  // add rotate
+                  if (isSelected)
+                    Positioned(
+                      left: -20,
+                      bottom: -20,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onPanUpdate: (details) {
+                          _handleRotate(element, details);
+                        },
+                        child: _buildRotateHandle(isSelected, () {}),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         );
@@ -359,7 +457,8 @@ class TemplateEditorScreenState extends State<TemplateEditorScreen> {
             },
             onPanUpdate: (details) {
               setState(() {
-                final index = elements.indexWhere((e) => e['id'] == element['id']);
+                final index =
+                    elements.indexWhere((e) => e['id'] == element['id']);
                 if (index != -1) {
                   elements[index]['x'] = element['x'] + details.delta.dx;
                   elements[index]['y'] = element['y'] + details.delta.dy;
@@ -395,23 +494,29 @@ class TemplateEditorScreenState extends State<TemplateEditorScreen> {
                 // Show Delete Icon when the image is selected
                 if (isSelected && !isDeleted)
                   Positioned(
-                    top: 5,
-                    left: 0,
+                    top: -20,
+                    right: -20,
                     child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          element['isDeleted'] = true;
-                          element['src'] = null;
-                        });
-                      },
+                      behavior: HitTestBehavior.opaque,
+                      onTap: _deleteSelectedElement,
                       child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.red,
+                        width: 50,
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2),
+                          ),
+                          child: const Icon(
+                            LucideIcons.x,
+                            color: Colors.grey,
+                            size: 23,
+                          ),
                         ),
-                        padding: const EdgeInsets.all(4),
-                        child: const Icon(Icons.close,
-                            color: Colors.white, size: 16),
                       ),
                     ),
                   ),
@@ -424,9 +529,13 @@ class TemplateEditorScreenState extends State<TemplateEditorScreen> {
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onPanUpdate: (details) {
-                        // Simplified scaling calculation
-                        double scale = (details.delta.dy + details.delta.dx) / 2;
-                        _handleScale(element, scale);
+                        double distance =
+                            (details.delta.dx + details.delta.dy) / 2;
+
+                        double scaleFactor =
+                            1.0 + (distance * 0.005); // touch smooth smootness
+
+                        _handleScale(element, scaleFactor);
                       },
                       child: _buildResizeHandle(isSelected, () {}),
                     ),
