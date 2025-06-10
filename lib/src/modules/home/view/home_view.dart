@@ -6,6 +6,7 @@ import 'package:banner_app/src/modules/home/bottom_navigation/my_project/my_proj
 import 'package:banner_app/src/modules/home/bottom_navigation/search/search_banners.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
+import 'package:get/get.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -23,7 +24,7 @@ class _HomeViewState extends State<HomeView>
     const HomeBanner(),
     const ExploreBanner(),
     const SearchBanners(),
-    const CreateBanner(),
+    CreateBannerScreen(),
     const MyProjectBanner(),
   ];
 
@@ -46,56 +47,162 @@ class _HomeViewState extends State<HomeView>
     super.dispose();
   }
 
+  Future<bool> _onWillPop() async {
+    final result = await Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.exit_to_app_rounded,
+                  size: 40,
+                  color: AppColor.lightGreen,
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Exit App',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: AppColor.lightGreen,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Are you sure you want to exit?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white.withOpacity(0.8),
+                ),
+              ),
+              const SizedBox(height: 25),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    onPressed: () => Get.back(result: false),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      backgroundColor: Colors.white.withOpacity(0.4),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: const Text(
+                      'No',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: AppColor.lightGreen,
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Get.back(result: true),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      backgroundColor: AppColor.lightGreen,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: const Text(
+                      'Exit',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierColor: Colors.black54,
+    );
+    return result ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: BottomBar(
-          fit: StackFit.loose,
-          barColor: Colors.transparent, // Glassmorphic effect
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: BottomBar(
+            fit: StackFit.loose,
+            barColor: Colors.transparent, // Glassmorphic effect
 
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.fastOutSlowIn,
-          showIcon: true,
-          hideOnScroll: true,
-          scrollOpposite: true,
-          iconHeight: 50,
-          iconWidth: 50,
-          width: MediaQuery.of(context).size.width,
-          reverse: false,
-          barAlignment: Alignment.bottomCenter,
-          body: (context, controller) => TabBarView(
-            controller: _tabController,
-            physics: const BouncingScrollPhysics(),
-            children: _screens,
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                // Background Bar
-                Container(
-                  height: 75,
-                  decoration: BoxDecoration(
-                    color: AppColor.darkGreen,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 10,
-                        spreadRadius: 3,
-                        offset: const Offset(0, 5),
-                      )
-                    ],
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.fastOutSlowIn,
+            showIcon: true,
+            hideOnScroll: true,
+            scrollOpposite: true,
+            iconHeight: 50,
+            iconWidth: 50,
+            width: MediaQuery.of(context).size.width,
+            reverse: false,
+            barAlignment: Alignment.bottomCenter,
+            body: (context, controller) => TabBarView(
+              controller: _tabController,
+              physics: const BouncingScrollPhysics(),
+              children: _screens,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  // Background Bar
+                  Container(
+                    height: 75,
+                    decoration: BoxDecoration(
+                      color: AppColor.darkGreen,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 10,
+                          spreadRadius: 3,
+                          offset: const Offset(0, 5),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                // Floating Icons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List.generate(5, (index) => _buildTab(index)),
-                ),
-              ],
+                  // Floating Icons
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: List.generate(5, (index) => _buildTab(index)),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

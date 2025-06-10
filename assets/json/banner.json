@@ -1,0 +1,1375 @@
+{
+  "categories": [
+    {
+      "title": "Birthday",
+      "id": "birthday",
+      "templates": [
+        {
+          "id": "b1",
+          "thumbnail": "assets/templates/birthday/b1/hbtn1.png",
+          "background": "assets/templates/birthday/b1/hbbg1.png",
+          "elements": [
+            {
+              "id": "bdt1",
+              "type": "text",
+              "value": "Sixty",
+              "x": 50,
+              "y": 10,
+              "fontSize": 120,
+              "fontfamily": "Dancing Script",
+              "color": "#D4B483",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdt11",
+              "type": "text",
+              "value": "JOIN US",
+              "x": 120,
+              "y": 175,
+              "fontSize": 15,
+              "fontfamily": "Comic Neue",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdt111",
+              "type": "text",
+              "value": "TO CELEBRATE",
+              "x": 100,
+              "y": 191,
+              "fontSize": 15,
+              "fontfamily": "Comic Neue",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdt1111",
+              "type": "text",
+              "value": "ANDREW'S SIXTY",
+              "x": 40,
+              "y": 220,
+              "fontSize": 33,
+              "fontWeight": "bold",
+              "fontfamily": "Comic Neue",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdt11111",
+              "type": "text",
+              "value": "BIRTHDAY",
+              "x": 90,
+              "y": 250,
+              "fontSize": 33,
+              "fontWeight": "bold",
+              "fontfamily": "Comic Neue",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdt1111111",
+              "type": "text",
+              "value": "SUN. AUGUST 6TH ",
+              "x": 97,
+              "y": 300,
+              "fontSize": 15,
+              "fontfamily": "Comic Neue",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdt11111111",
+              "type": "text",
+              "value": "5PM - 8PM",
+              "x": 125,
+              "y": 315,
+              "fontSize": 15,
+              "fontfamily": "Comic Neue",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdt111111111",
+              "type": "text",
+              "value": "123 ANYWHERE ST. ANY CITY",
+              "x": 60,
+              "y": 350,
+              "fontSize": 15,
+              "fontfamily": "Comic Neue",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdt1111111111",
+              "type": "text",
+              "value": "RSVP: 123-456-7890",
+              "x": 100,
+              "y": 380,
+              "fontSize": 15,
+              "fontfamily": "Comic Neue",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+
+        {
+          "id": "b2",
+          "thumbnail": "assets/templates/birthday/b2/hbtn2.png",
+          "background": "assets/templates/birthday/b2/hbbg2.png",
+          "elements": [
+            {
+              "id": "bdt2",
+              "type": "text",
+              "value": "Happy Birthday",
+              "x": 20,
+              "y": 180,
+              "fontWeight": "bold",
+              "fontfamily": "Pacifico",
+              "fontSize": 27,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdt22",
+              "type": "text",
+              "value": "HOPE ALL YOUR BIRTHDAY\nWISHES COME TRUE",
+              "x": 20,
+              "y": 240,
+              "fontfamily": "Montserrat",
+              "fontSize": 11,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+        {
+          "id": "b3",
+          "thumbnail": "assets/templates/birthday/b3/hbtn3.png",
+          "background": "assets/templates/birthday/b3/hbbg3.png",
+          "elements": [
+            {
+              "id": "bdp3",
+              "type": "image",
+              "src": "assets/templates/birthday/b3/hbp3.png",
+              "x": 90,
+              "y": 65,
+              "width": 150,
+              "height": 200,
+              "isSelected": false,
+              "rotation": 0
+            },
+            {
+              "id": "bdt3",
+              "type": "text",
+              "value": "HAPPY",
+              "x": 130,
+              "y": 270,
+              "fontSize": 35,
+              "fontWeight": "bold",
+              "fontfamily": "League Spartan",
+              "color": "#c69a47",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdt33",
+              "type": "text",
+              "value": "BIRTHDAY",
+              "x": 110,
+              "y": 305,
+              "fontWeight": "bold",
+              "fontSize": 35,
+              "fontfamily": "League Spartan",
+              "color": "#c69a47",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdt333",
+              "type": "text",
+              "value": "Samira!",
+              "x": 105,
+              "y": 335,
+
+              "fontfamily": "Pinyon Script",
+              "fontSize": 45,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Business",
+      "id": "business",
+      "templates": [
+        {
+          "id": "bs1",
+          "thumbnail": "assets/templates/business/b1/bstn1.png",
+          "background": "assets/templates/business/b1/bsbg1.png",
+          "elements": [
+            {
+              "id": "bsp1",
+              "type": "image",
+              "src": "assets/templates/business/b1/bsp1.png",
+              "x": 150,
+              "y": 200,
+              "width": 160,
+              "height": 150,
+              "isSelected": false,
+              "rotation": 0,
+              "clip": "circle"
+            },
+
+            {
+              "id": "bst1",
+              "type": "text",
+              "value": "YOUR BUSINESS",
+              "x": 30,
+              "y": 70,
+              "fontWeight": "bold",
+              "fontSize": 30,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bst1111111",
+              "type": "text",
+              "value": "PARTNER",
+              "x": 30,
+              "y": 100,
+              "fontWeight": "bold",
+              "fontSize": 30,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bst11",
+              "type": "text",
+              "value": "The Best Soultion For Growing Your\nBusiness",
+              "x": 30,
+              "y": 155,
+              "fontSize": 11,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "register_button1",
+              "type": "shape",
+              "shape": "rounded_rectangle",
+              "x": 35,
+              "y": 210,
+              "width": 90,
+              "height": 25,
+              "color": "#FFFFFF",
+              "borderRadius": 20,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bst111",
+              "type": "text",
+              "value": "Join Now",
+              "x": 45,
+              "y": 209,
+              "fontSize": 13,
+              "fontWeight": "bold",
+              "color": "#f8049c",
+              "rotation": 0,
+              "isSelected": false
+            },
+
+            {
+              "id": "bst1111",
+              "type": "text",
+              "value": "For More Info \nWWW.worldfree4u.com",
+              "x": 50,
+              "y": 375,
+              "fontSize": 10,
+              "fontWeight": "bold",
+              "color": "#000000",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bsWebsite1",
+              "type": "image",
+              "src": "assets/templates/business/b1/bssvg1.svg",
+              "x": -20,
+              "y": 342,
+              "width": 100,
+              "height": 100,
+              "isSelected": false,
+              "rotation": 0
+            },
+            {
+              "id": "bst11111",
+              "type": "text",
+              "value": "B U S I N E S S",
+              "fontWeight": "bold",
+              "x": 230,
+              "y": 373,
+              "fontSize": 8,
+              "color": "#f8049c",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bst111111",
+              "type": "text",
+              "value": "L O G O",
+              "x": 230,
+              "y": 380,
+              "fontWeight": "bold",
+              "fontSize": 16,
+              "color": "#000000",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+
+        {
+          "id": "bs2",
+          "thumbnail": "assets/templates/business/b2/bstn2.png",
+          "background": "assets/templates/business/b2/bsbg2.png",
+          "elements": [
+            {
+              "id": "bscompanylogo",
+              "type": "image",
+              "src": "assets/templates/business/b2/bslogo2.svg",
+              "x": 70,
+              "y": 40,
+              "width": 100,
+              "height": 100,
+              "isSelected": false,
+              "rotation": 0
+            },
+            {
+              "id": "bst2",
+              "type": "text",
+              "value": "Company Name",
+              "x": 75,
+              "y": 120,
+              "fontfamily": "Montserrat",
+              "fontSize": 10,
+              "fontWeight": "bold",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bst22",
+              "type": "text",
+              "value": "John Smith",
+              "x": 35,
+              "y": 145,
+              "fontWeight": "bold",
+              "fontfamily": "Montserrat",
+              "fontSize": 26,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bst222",
+              "type": "text",
+              "value": "Business Consultant",
+              "x": 35,
+              "y": 190,
+              "fontWeight": "bold",
+              "fontfamily": "Montserrat",
+              "fontSize": 11,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bsPhone",
+              "type": "image",
+              "src": "assets/templates/business/b2/bsphone2.svg",
+              "x": 0,
+              "y": 205,
+              "width": 65,
+              "height": 75,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bst2222",
+              "type": "text",
+              "value": "+92322-456-7890",
+              "x": 60,
+              "y": 234,
+              "fontfamily": "Open Sans",
+              "fontSize": 11,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bsEmail",
+              "type": "image",
+              "src": "assets/templates/business/b2/bsemail2.svg",
+              "x": 10,
+              "y": 235,
+              "width": 60,
+              "height": 70,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bst22222",
+              "type": "text",
+              "value": "ramzan43@gmail.com",
+              "x": 60,
+              "y": 262,
+              "fontfamily": "Open Sans",
+              "fontSize": 11,
+
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bsWebsite",
+              "type": "image",
+              "src": "assets/templates/business/b2/bswebsite2.svg",
+              "x": 5,
+              "y": 260,
+              "width": 75,
+              "height": 80,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bst222222",
+              "type": "text",
+              "value": "www.reallygreatsite.com",
+              "x": 60,
+              "y": 290,
+              "fontfamily": "Open Sans",
+              "fontSize": 11,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bslocation2",
+              "type": "image",
+              "src": "assets/templates/business/b2/bslocation2.svg",
+              "x": -3,
+              "y": 283,
+              "width": 85,
+              "height": 90,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bst2222222",
+              "type": "text",
+              "value": "123 Anywhere St. Any City",
+              "x": 60,
+              "y": 320,
+              "fontSize": 11,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+
+        {
+          "id": "bs3",
+          "thumbnail": "assets/templates/business/b3/bstn3.png",
+          "background": "assets/templates/business/b3/bsbg3.png",
+          "elements": [
+            {
+              "id": "bsp1",
+              "type": "image",
+              "src": "assets/templates/business/b3/bsp3.png",
+              "x": 145,
+              "y": 113,
+              "width": 195,
+              "height": 325,
+              "isSelected": false,
+              "rotation": 0
+            },
+            {
+              "id": "bslogo3",
+              "type": "image",
+              "src": "assets/templates/business/b3/bslogo3.png",
+              "x": -10,
+              "y": 42,
+              "width": 100,
+              "height": 90,
+              "isSelected": false,
+              "rotation": 0
+            },
+            {
+              "id": "bSt3",
+              "type": "text",
+              "value": "YOUR LOGO",
+              "x": 62,
+              "y": 80,
+              "fontSize": 8,
+              "fontWeight": "bold",
+              "fontfamily": "Open Sans",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bst33",
+              "type": "text",
+              "value": "BUSINESS\nMARKETING\nAGENCY",
+              "x": 30,
+              "y": 120,
+              "fontWeight": "bold",
+              "fontSize": 23,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+
+            {
+              "id": "register_button3",
+              "type": "shape",
+              "shape": "rounded_rectangle",
+              "x": 30,
+              "y": 260,
+              "width": 125,
+              "height": 30,
+              "color": "#4e45ff",
+              "borderRadius": 20,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bSt333",
+              "type": "text",
+              "value": "CONTACT US",
+              "x": 50,
+              "y": 263,
+              "fontfamily": "Montserrat",
+              "fontWeight": "bold",
+              "fontSize": 11,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bSt3333",
+              "type": "text",
+              "value": "Contact info :",
+              "x": 30,
+              "y": 320,
+              "fontfamily": "Montserrat",
+              "fontSize": 13,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bsaddress3",
+              "type": "image",
+              "src": "assets/templates/business/b3/bsaddres3.svg",
+              "x": -13,
+              "y": 310,
+              "width": 110,
+              "height": 110,
+              "isSelected": false,
+              "rotation": 0
+            },
+            {
+              "id": "bSt33333",
+              "type": "text",
+              "value": "0300-7849-500 \nwww.reallysite.com",
+              "x": 60,
+              "y": 350,
+              "fontSize": 9,
+              "fontfamily": "Montserrat",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "PSL",
+      "id": "psl",
+      "templates": [
+        {
+          "id": "psllq1",
+          "thumbnail": "assets/templates/PSL/lq/lqtn.png",
+          "background": "assets/templates/PSL/lq/lqbg.png",
+          "elements": [
+            {
+              "id": "psllq",
+              "type": "image",
+              "src": "assets/templates/PSL/lq/lqpc.png",
+              "x": 80,
+              "y": 150,
+              "width": 200,
+              "height": 200,
+              "isSelected": false,
+              "rotation": 0
+            },
+            {
+              "id": "lqname",
+              "type": "text",
+              "value": "Kamran Ghulam",
+              "x": 80,
+              "y": 348,
+              "fontSize": 28,
+              "fontWeight": "bold",
+              "fontfamily": "Alice",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+        {
+          "id": "pslkk1",
+          "thumbnail": "assets/templates/PSL/kk/kktn.png",
+          "background": "assets/templates/PSL/kk/kkbg.png",
+          "elements": [
+            {
+              "id": "rectshapekk",
+              "type": "shape",
+              "shape": "rounded_rectangle",
+              "x": 20,
+              "y": 320,
+              "width": 180,
+              "height": 28,
+              "color": "#ff2f24",
+              "borderRadius": 10,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "kkname1",
+              "type": "text",
+              "value": "Kings of the Game\nKarachi Kings!",
+              "x": 20,
+              "y": 160,
+              "fontSize": 23,
+              "fontWeight": "bold",
+              "fontfamily": "League Spartan",
+              "color": "#fdffff",
+              "rotation": 0,
+              "isSelected": false
+            },
+
+            {
+              "id": "kkname",
+              "type": "text",
+              "value": "Martin Guptil",
+              "x": 38,
+              "y": 316,
+              "fontSize": 20,
+              "fontWeight": "bold",
+              "fontfamily": "Montserrat",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+        {
+          "id": "pslpz1",
+          "thumbnail": "assets/templates/PSL/pz/pztn.png",
+          "background": "assets/templates/PSL/pz/pzbg.png",
+          "elements": [
+            {
+              "id": "pslpz",
+              "type": "image",
+              "src": "assets/templates/PSL/lq/lqpc.png",
+              "x": 70,
+              "y": 125,
+              "width": 190,
+              "height": 190,
+              "isSelected": false,
+              "rotation": 0
+            },
+            {
+              "id": "pzname",
+              "type": "text",
+              "value": "Touseef Khokhar",
+              "x": 60,
+              "y": 315,
+              "fontSize": 28,
+              "fontWeight": "bold",
+              "fontfamily": "Alice",
+              "color": "#c1ff72",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+        {
+          "id": "pslms1",
+          "thumbnail": "assets/templates/PSL/ms/mstn.png",
+          "background": "assets/templates/PSL/ms/msbg.png",
+          "elements": [
+            {
+              "id": "msname1",
+              "type": "text",
+              "value": "COME ON MULTAN SULTAN",
+              "x": 38,
+              "y": 180,
+              "fontSize": 20,
+              "fontWeight": "bold",
+              "fontfamily": "Yeseva One",
+              "color": "#fdffff",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "pslms",
+              "type": "image",
+              "src": "assets/templates/PSL/lq/lqpc.png",
+              "x": 100,
+              "y": 220,
+              "width": 160,
+              "height": 160,
+              "isSelected": false,
+              "rotation": 0
+            },
+
+            {
+              "id": "msname",
+              "type": "text",
+              "value": "Muhammad Ahmad",
+              "x": 55,
+              "y": 380,
+              "fontSize": 28,
+              "fontWeight": "bold",
+              "fontfamily": "Alice",
+              "color": "#db7231",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+        {
+          "id": "psliu1",
+          "thumbnail": "assets/templates/PSL/iu/iutn.png",
+          "background": "assets/templates/PSL/iu/iubg.png",
+          "elements": [
+            {
+              "id": "rectshape",
+              "type": "shape",
+              "shape": "rounded_rectangle",
+              "x": 35,
+              "y": 185,
+              "width": 300,
+              "height": 30,
+              "color": "#ff5757",
+              "borderRadius": 5,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "iuname1",
+              "type": "text",
+              "value": "Time to roar Islamabad United",
+              "x": 45,
+              "y": 182,
+              "fontSize": 20,
+              "fontWeight": "bold",
+              "fontfamily": "Alegreya Sans SC",
+              "color": "#fdffff",
+              "rotation": 0,
+              "isSelected": false
+            },
+
+            {
+              "id": "psliu",
+              "type": "image",
+              "src": "assets/templates/PSL/lq/lqpc.png",
+              "x": 100,
+              "y": 220,
+              "width": 160,
+              "height": 160,
+              "isSelected": false,
+              "rotation": 0
+            },
+
+            {
+              "id": "iuname",
+              "type": "text",
+              "value": "ABDUL MANAN",
+              "x": 75,
+              "y": 380,
+              "fontSize": 28,
+              "fontWeight": "bold",
+              "fontfamily": "Baloo 2",
+              "color": "#f2c293",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+        {
+          "id": "pslqg1",
+          "thumbnail": "assets/templates/PSL/qg/qgtn.png",
+          "background": "assets/templates/PSL/qg/qgbg.png",
+          "elements": [
+            {
+              "id": "rectshape_qg",
+              "type": "shape",
+              "shape": "rounded_rectangle",
+              "x": 150,
+              "y": 370,
+              "width": 200,
+              "height": 35,
+              "color": "#cb6ce6",
+              "borderRadius": 5,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "iuname1",
+              "type": "text",
+              "value": "Let’s Go, Purple Power",
+              "x": 35,
+              "y": 120,
+              "fontSize": 23,
+
+              "fontfamily": "Alice",
+              "color": "#fdffff",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "iuname2",
+              "type": "text",
+              "value": "Quetta Gladiators!",
+              "x": 55,
+              "y": 150,
+              "fontSize": 24,
+              "fontWeight": "bold",
+              "fontfamily": "Alice",
+              "color": "#fdffff",
+              "rotation": 0,
+              "isSelected": false
+            },
+
+            {
+              "id": "pslqg",
+              "type": "image",
+              "src": "assets/templates/PSL/lq/lqpc.png",
+              "x": 180,
+              "y": 220,
+              "width": 130,
+              "height": 130,
+              "isSelected": false,
+              "rotation": 0
+            },
+
+            {
+              "id": "qgname",
+              "type": "text",
+              "value": "Noman Yousuf",
+              "x": 165,
+              "y": 365,
+              "fontSize": 23,
+              "fontWeight": "bold",
+              "fontfamily": "Inria Serif",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+        {
+          "id": "pslvs1",
+          "thumbnail": "assets/templates/PSL/vs/vstn.png",
+          "background": "assets/templates/PSL/vs/vsbg.png",
+          "elements": [
+            {
+              "id": "vsname",
+              "type": "text",
+              "value": "Peshwar",
+              "x": 233,
+              "y": 265,
+              "fontSize": 20,
+              "fontfamily": "Poppins",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+
+            {
+              "id": "vsname1",
+              "type": "text",
+              "value": "Quetta",
+              "x": 30,
+              "y": 245,
+              "fontSize": 20,
+              "fontfamily": "Poppins",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "vsname2",
+              "type": "text",
+              "value": "National Stadium",
+              "x": 125,
+              "y": 365,
+              "fontSize": 10,
+              "fontfamily": "Poppins",
+              "fontWeight": "bold",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "vsname3",
+              "type": "text",
+              "value": "Wednesday, 15 April, 2025\n123 Anywhere St., Any City",
+              "x": 105,
+              "y": 380,
+              "fontSize": 10,
+              "fontfamily": "Poppins",
+              "fontWeight": "bold",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Brand Sales",
+      "id": "brandsales",
+      "templates": [
+        {
+          "id": "bds1",
+          "thumbnail": "assets/templates/BrandSales/bs1/bdstn1.png",
+          "background": "assets/templates/BrandSales/bs1/bdsbg1.png",
+          "elements": [
+            {
+              "id": "bdsp1",
+              "type": "image",
+              "src": "assets/templates/BrandSales/bs1/bdspc1.png",
+              "x": -5,
+              "y": 60,
+              "width": 170,
+              "height": 310,
+              "isSelected": false,
+              "rotation": 0
+            },
+            {
+              "id": "bdslogo1",
+              "type": "image",
+              "src": "assets/templates/BrandSales/bs1/bdslogo1.png",
+              "x": 220,
+              "y": 70,
+              "width": 40,
+              "height": 45,
+              "isSelected": false,
+              "rotation": 0
+            },
+            {
+              "id": "bdst1",
+              "type": "text",
+              "value": "August 10-15, 2025",
+              "x": 190,
+              "y": 130,
+              "fontSize": 12,
+              "fontWeight": "bold",
+              "fontfamily": "Overpass",
+              "color": "#000000",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst11",
+              "type": "text",
+              "value": "Get",
+              "x": 235,
+              "y": 160,
+              "fontSize": 11,
+              "fontWeight": "bold",
+              "fontfamily": "Overpass",
+              "color": "#000000",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst111",
+              "type": "text",
+              "value": "20% OFF",
+              "x": 177,
+              "y": 185,
+              "fontSize": 35,
+              "fontWeight": "bold",
+              "fontfamily": "Overpass",
+              "color": "#000000",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst11111",
+              "type": "text",
+              "value": "on every item",
+              "x": 210,
+              "y": 240,
+              "fontSize": 11,
+              "fontWeight": "bold",
+              "fontfamily": "Overpass",
+              "color": "#000000",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst1111",
+              "type": "text",
+              "value": "Learn more about this deal on\n              websitelinkhere",
+              "x": 187,
+              "y": 320,
+              "fontSize": 9,
+              "fontWeight": "bold",
+              "fontfamily": "Overpass",
+              "color": "#000000",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+
+        {
+          "id": "bds2",
+          "thumbnail": "assets/templates/BrandSales/bs2/bdstn2.png",
+          "background": "assets/templates/BrandSales/bs2/bdsbg2.png",
+          "elements": [
+            {
+              "id": "bdsp2",
+              "type": "image",
+              "src": "assets/templates/BrandSales/bs2/bdspc2.png",
+              "x": 50,
+              "y": 165,
+              "width": 240,
+              "height": 190,
+              "isSelected": false,
+              "rotation": 0
+            },
+            {
+              "id": "bdst2",
+              "type": "text",
+              "value": "SUMMER SALE",
+              "x": 60,
+              "y": 30,
+              "fontSize": 30,
+              "fontWeight": "bold",
+              "fontfamily": "Montserrat",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst22",
+              "type": "text",
+              "value": "NEW COLLECTION",
+              "fontWeight": "bold",
+              "x": 115,
+              "y": 70,
+              "fontSize": 13,
+
+              "fontfamily": "Montserrat",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst222",
+              "type": "text",
+              "value": "  UP TO\n50% OFF",
+              "x": 185,
+              "y": 124,
+              "fontSize": 13,
+              "fontWeight": "bold",
+              "fontfamily": "Montserrat",
+              "color": "#cb6f79",
+              "rotation": 0,
+              "isSelected": false
+            },
+
+            {
+              "id": "rectshapebsd2",
+              "type": "shape",
+              "shape": "rounded_rectangle",
+              "x": 120,
+              "y": 350,
+              "width": 120,
+              "height": 28,
+              "color": "#cb6f79",
+              "borderRadius": 10,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst2222",
+              "type": "text",
+              "value": "SHOP NOW",
+              "x": 136,
+              "y": 350,
+              "fontSize": 13,
+              "fontWeight": "bold",
+              "fontfamily": "Montserrat",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "rectshapebsd22",
+              "type": "shape",
+              "shape": "rounded_rectangle",
+              "x": 70,
+              "y": 400,
+              "width": 230,
+              "height": 20,
+              "color": "#FFFFFF",
+              "borderRadius": 10,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst22222",
+              "type": "text",
+              "value": "WWW.REALLYGREATWEBSITE.COM",
+              "x": 107,
+              "y": 400,
+              "fontSize": 8,
+              "fontWeight": "bold",
+              "fontfamily": "Montserrat",
+              "color": "#cb6f79",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+        {
+          "id": "bds3",
+          "thumbnail": "assets/templates/BrandSales/bs3/bdstn3.png",
+          "background": "assets/templates/BrandSales/bs3/bdsbg3.png",
+          "elements": [
+            {
+              "id": "bdsp3",
+              "type": "image",
+              "src": "assets/templates/BrandSales/bs3/bdspc3.png",
+              "x": 100,
+              "y": 179,
+              "width": 130,
+              "height": 160,
+              "isSelected": false,
+              "rotation": 0
+            },
+            {
+              "id": "bdst3",
+              "type": "text",
+              "value": "Watch  Promotion",
+              "x": 70,
+              "y": 60,
+              "fontSize": 26,
+
+              "fontfamily": "Pacifico",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst33",
+              "type": "text",
+              "value": "DISC 25% OFF",
+              "x": 90,
+              "y": 100,
+
+              "fontfamily": "Montserrat",
+              "fontSize": 25,
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "rectshapebsd3",
+              "type": "shape",
+              "shape": "rounded_rectangle",
+              "x": 120,
+              "y": 142,
+              "width": 120,
+              "height": 22,
+              "color": "#FFFFFF",
+              "borderRadius": 0,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst333",
+              "type": "text",
+              "value": "THIS MONTH ONLY",
+              "x": 125,
+              "y": 141,
+              "fontSize": 10,
+              "fontWeight": "bold",
+              "fontfamily": "Montserrat",
+              "color": "#000000",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        },
+        {
+          "id": "bds4",
+          "thumbnail": "assets/templates/BrandSales/bs4/bdstn4.png",
+          "background": "assets/templates/BrandSales/bs4/bdsbg4.png",
+          "elements": [
+            {
+              "id": "bdst4",
+              "type": "text",
+              "value": "SPECIAL",
+              "x": 132,
+              "y": 55,
+              "fontSize": 34,
+              "fontfamily": "Anton",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst44",
+              "type": "text",
+              "value": "BIG",
+              "x": 130,
+              "y": 88,
+              "fontSize": 90,
+
+              "fontfamily": "Anton",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst444",
+              "type": "text",
+              "value": "SALE",
+              "x": 110,
+              "y": 185,
+              "fontSize": 90,
+
+              "fontfamily": "Anton",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst4444",
+              "type": "text",
+              "value": "  UP TO ",
+              "x": 275,
+              "y": 342,
+              "fontSize": 11,
+
+              "fontfamily": "Anton",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst444444",
+              "type": "text",
+              "value": "50",
+              "x": 275,
+              "y": 353,
+              "fontSize": 20,
+
+              "fontfamily": "Anton",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst44444",
+              "type": "text",
+              "value": "%",
+              "x": 300,
+              "y": 361,
+              "fontSize": 13,
+
+              "fontfamily": "Anton",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            },
+
+            {
+              "id": "rectshapebsd4",
+              "type": "shape",
+              "shape": "rounded_rectangle",
+              "x": 105,
+              "y": 345,
+              "width": 130,
+              "height": 17,
+              "color": "#ad0302",
+              "borderRadius": 20,
+              "rotation": 0,
+              "isSelected": false
+            },
+            {
+              "id": "bdst44444444",
+              "type": "text",
+              "value": " 1 - 30 SEPTEMBER 2024 ",
+              "x": 108,
+              "y": 343,
+              "fontSize": 9,
+
+              "fontfamily": "Montserrat",
+              "color": "#FFFFFF",
+              "rotation": 0,
+              "isSelected": false
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "title": "Popular Categories",
+      "id": "popluar123",
+      "subCategories": [
+        {
+          "title": "Birthday",
+          "thumbnail": "assets/templates/exploreScreen/pctnBirthday.png"
+        },
+        {
+          "title": "Business",
+          "thumbnail": "assets/templates/exploreScreen/pctnBusiness.png"
+        }
+      ]
+    }
+  ]
+}

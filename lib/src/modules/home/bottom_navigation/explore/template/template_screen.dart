@@ -1,8 +1,11 @@
 import 'package:banner_app/src/core/common/my_app_bar.dart';
+import 'package:banner_app/src/core/controller/category_controller.dart';
 import 'package:banner_app/src/core/values/app_color.dart';
-import 'package:banner_app/src/core/values/constants.dart';
+import 'package:banner_app/src/data/models/category_model.dart';
 import 'package:banner_app/src/modules/home/bottom_navigation/explore/edit_screen/edit_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
 
 class TemplatesScreen extends StatefulWidget {
   final String? selectedCategory;
@@ -13,46 +16,73 @@ class TemplatesScreen extends StatefulWidget {
 }
 
 class _TemplatesScreenState extends State<TemplatesScreen> {
-  final List<String> popularCategoriestitles =
-      CategoriesTitle.CategoriesTitleList;
-  final List<String> exploreCardTitles = ExploreCategories.exploreCardTitle;
-  final List<String> beautifyTitlesCategories1 =
-      BeautifyEvents1.beautifyEventsTitles1;
-  final List<String> beautifyTitlesCategories2 =
-      BeautifyEvents2.beautifyEventsTitles2;
-
-  late List<String> allTitles;
+  final CategoryController _categoryController = Get.find();
   String? selectedChip;
-  final ScrollController _scrollController =
-      ScrollController(); // Add ScrollController
+  final ScrollController _scrollController = ScrollController();
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
-    allTitles = [
-      ...popularCategoriestitles,
-      ...beautifyTitlesCategories1,
-      ...beautifyTitlesCategories2,
-      ...exploreCardTitles,
-    ];
 
-    // Set the initially selected chip if coming from search
-    selectedChip = widget.selectedCategory;
+    // Ensure categories are loaded before checking
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      final categories = getDirectCategories();
+
+      if (widget.selectedCategory != null &&
+          categories
+              .any((category) => category.title == widget.selectedCategory)) {
+        selectedChip = widget.selectedCategory;
+      } else if (categories.isNotEmpty) {
+        selectedChip = categories.first.title; // Default to first category
+      }
+
+      setState(() {}); // Ensure UI updates after setting selectedChip
       scrollToSelectedChip();
     });
   }
 
   void scrollToSelectedChip() {
     if (selectedChip != null) {
-      int index = allTitles.indexOf(selectedChip!);
+      final index = getDirectCategories()
+          .indexWhere((category) => category.title == selectedChip);
       if (index != -1) {
         _scrollController.animateTo(
           index * 100.0,
-          duration: const Duration(milliseconds: 1),
-          curve: Curves.bounceIn,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
         );
       }
     }
+  }
+
+  // Get direct categories  without subcategories logic is blow
+  List<Category> getDirectCategories() {
+    return _categoryController.categories
+        .where((category) => category.subCategories.isEmpty)
+        .toList();
+  }
+
+  RxList<Template> getTemplatesForSelectedCategory() {
+    final allCategories = _categoryController.categories;
+
+    final selectedTemplates = <Template>[].obs;
+
+    if (selectedChip == null) return selectedTemplates;
+
+    // matching title to select categories
+    final selectedCategory = allCategories.firstWhere(
+      (category) => category.title == selectedChip,
+      orElse: () => allCategories.isNotEmpty
+          ? allCategories.first
+          : Category(title: '', id: '', subCategories: [], templates: []),
+    );
+
+    if (selectedCategory.subCategories.isEmpty) {
+      selectedTemplates.addAll(selectedCategory.templates);
+    }
+
+    return selectedTemplates;
   }
 
   @override
@@ -68,82 +98,106 @@ class _TemplatesScreenState extends State<TemplatesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //####################################### Chips for Categories
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                controller: _scrollController,
-                child: Row(
-                  children: allTitles.map((title) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: ChoiceChip(
-                        checkmarkColor: Colors.white,
-                        selectedColor: AppColor.darkGreen,
-                        label: Text(
-                          title,
-                          style: TextStyle(
-                            color: selectedChip == title
-                                ? Colors.white
-                                : AppColor.darkGreen,
-                            fontWeight: FontWeight.bold,
+              //############### Chips for Categories ###############
+              Obx(() {
+                final directCategories = getDirectCategories();
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  controller: _scrollController,
+                  child: Row(
+                    children: directCategories.map((category) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: ChoiceChip(
+                          checkmarkColor: Colors.white,
+                          selectedColor: AppColor.darkGreen,
+                          label: Text(
+                            category.title,
+                            style: TextStyle(
+                              color: selectedChip == category.title
+                                  ? Colors.white
+                                  : AppColor.darkGreen,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
+                          selected: selectedChip == category.title,
+                          onSelected: (_) => setState(() {
+                            selectedChip = category.title;
+                          }),
                         ),
-                        selected: selectedChip == title,
-                        onSelected: (_) => setState(() {
-                          selectedChip = title;
-                        }),
+                      );
+                    }).toList(),
+                  ),
+                );
+              }),
+              const SizedBox(height: 10),
+
+              //############### Templates Grid ###############
+
+              Expanded(
+                child: Obx(() {
+                  final selectedTemplates = getTemplatesForSelectedCategory();
+
+                  if (selectedTemplates.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        "No templates found for this category.",
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
                       ),
                     );
-                  }).toList(),
-                ),
-              ),
-              const SizedBox(height: 20),
+                  }
 
-              //##################################################################################
-              Expanded(
-                child: selectedChip != null &&
-                        categoryImages.containsKey(selectedChip!)
-                    ? GridView.builder(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.all(10),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 1,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          childAspectRatio: 0.7,
-                        ),
-                        itemCount: categoryImages[selectedChip!]!.length,
-                        itemBuilder: (context, index) {
-                          String imagePath =
-                              categoryImages[selectedChip!]![index];
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditScreen(imagePath: imagePath),
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: MasonryGridView.builder(
+                      gridDelegate:
+                          const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1,
+                      ),
+                      itemCount: selectedTemplates.length,
+                      itemBuilder: (context, index) {
+                        final template = selectedTemplates[index];
+
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditScreen(
+                                  imagePath: template.thumbnail,
+                                  templateId: template.id,
                                 ),
-                              );
-                            },
+                              ),
+                            );
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                                bottom: 16, top: 5, left: 5, right: 5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(1),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  blurRadius: 4,
+                                  spreadRadius: 1,
+                                  offset: Offset(0, 0),
+                                ),
+                              ],
+                            ),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(4),
                               child: Image.asset(
-                                categoryImages[selectedChip!]![index],
+                                template.thumbnail,
                                 fit: BoxFit.cover,
                               ),
                             ),
-                          );
-                        },
-                      )
-                    : const Center(
-                        child: Text(
-                          "No Data found",
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
-                        ),
-                      ),
-              ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }),
+              )
             ],
           ),
         ),

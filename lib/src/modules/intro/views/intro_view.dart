@@ -4,6 +4,7 @@ import 'package:banner_app/src/modules/intro/on_boarding/on_borading_3.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IntroView extends StatefulWidget {
   const IntroView({super.key});
@@ -15,7 +16,6 @@ class IntroView extends StatefulWidget {
 class _SplashViewState extends State<IntroView> {
   final CarouselSliderController _carouselController =
       CarouselSliderController();
-
   int _currentIndex = 0;
 
   final List<Widget> splashScreens = const [
@@ -23,6 +23,33 @@ class _SplashViewState extends State<IntroView> {
     OnBoarding2(),
     OnBorading3()
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _checkFirstSeen();
+  }
+
+  Future<void> _checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool seen = (prefs.getBool('seen') ?? false);
+
+    if (seen) {
+      // If user has already seen intro, navigate to home
+      Get.offAllNamed('/home');
+    }
+  }
+
+  Future<void> _markIntroSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('seen', true);
+  }
+
+  // Update the continue/skip logic
+  void _navigateToHome() async {
+    await _markIntroSeen(); // Mark intro as seen
+    Get.offAllNamed('/home');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +100,7 @@ class _SplashViewState extends State<IntroView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                    onPressed: () {
-                      Get.toNamed('/home'); // skip go to home screen
-                    },
+                    onPressed: _navigateToHome, // Updated
                     child: const Text(
                       "Skip",
                       style: TextStyle(fontSize: 18, color: Colors.black),
@@ -84,7 +109,7 @@ class _SplashViewState extends State<IntroView> {
                   ElevatedButton(
                     onPressed: () {
                       if (_currentIndex == splashScreens.length - 1) {
-                        Get.toNamed('/home'); // if skip go to home screeen
+                        _navigateToHome(); // Updated
                       } else {
                         _carouselController.nextPage();
                       }

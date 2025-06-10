@@ -1,15 +1,19 @@
+import 'package:banner_app/src/core/controller/template_editor_controller.dart';
+import 'package:banner_app/src/core/values/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TextEditorScreen extends StatefulWidget {
   final String initialText;
   final Function(String, String) onTextUpdated;
-
-  const TextEditorScreen({
-    super.key,
-    required this.initialText,
-    required this.onTextUpdated,
-  });
+  final VoidCallback? onScreenClosed;
+  const TextEditorScreen(
+      {super.key,
+      required this.initialText,
+      required this.onTextUpdated,
+      this.onScreenClosed});
 
   @override
   TextEditorScreenState createState() => TextEditorScreenState();
@@ -41,13 +45,15 @@ class TextEditorScreenState extends State<TextEditorScreen> {
 
   @override
   void dispose() {
-    _textController.dispose();
+    final controller = Get.find<TemplateEditorController>();
+    controller.shouldResetOnExit.value = true;
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Center(child: Text("Edit Text")),
         actions: [
@@ -97,13 +103,17 @@ class TextEditorScreenState extends State<TextEditorScreen> {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: selectedFont == fonts[index]
-                          ? Colors.blueAccent.withOpacity(0.3)
+                          ? AppColor.darkGreen
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       fonts[index],
-                      style: GoogleFonts.getFont(fonts[index], fontSize: 24),
+                      style: GoogleFonts.getFont(fonts[index],
+                          fontSize: 20,
+                          color: selectedFont == fonts[index]
+                              ? Colors.white
+                              : Colors.black),
                     ),
                   ),
                 );

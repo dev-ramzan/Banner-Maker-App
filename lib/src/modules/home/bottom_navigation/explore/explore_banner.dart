@@ -1,9 +1,13 @@
 import 'package:banner_app/src/core/common/my_app_bar.dart';
+import 'package:banner_app/src/core/controller/category_controller.dart';
 import 'package:banner_app/src/core/values/app_color.dart';
-import 'package:banner_app/src/core/values/constants.dart';
 import 'package:banner_app/src/modules/home/bottom_navigation/explore/template/template_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+
+import '../../../../core/values/constants.dart';
+import '../../../../data/models/category_model.dart';
 
 class ExploreBanner extends StatefulWidget {
   const ExploreBanner({super.key});
@@ -13,13 +17,7 @@ class ExploreBanner extends StatefulWidget {
 }
 
 class _ExploreBannerState extends State<ExploreBanner> {
-  final List<String> popularCategoriestitles =
-      CategoriesTitle.CategoriesTitleList;
-  final List<String> exploreCardTitles = ExploreCategories.exploreCardTitle;
-  final List<String> beautifyTitlesCategories1 =
-      BeautifyEvents1.beautifyEventsTitles1;
-  final List<String> beautifyTitlesCategories2 =
-      BeautifyEvents2.beautifyEventsTitles2;
+  final CategoryController categoryController = Get.find();
 
   List<String> allFilteredResults = [];
   final TextEditingController _searchController = TextEditingController();
@@ -31,7 +29,7 @@ class _ExploreBannerState extends State<ExploreBanner> {
   }
 
   void _filterItems() {
-    String query = _searchController.text.trim();
+    String query = _searchController.text.trim().toLowerCase();
     if (query.isEmpty) {
       setState(() {
         allFilteredResults = [];
@@ -39,17 +37,16 @@ class _ExploreBannerState extends State<ExploreBanner> {
       return;
     }
 
+    // Filter only the main category titles
+    var results = categoryController.categories
+        .where((category) =>
+            category.subCategories.isEmpty &&
+            category.title.toLowerCase().contains(query))
+        .map((category) => category.title)
+        .toList();
+
     setState(() {
-      allFilteredResults = [
-        ...popularCategoriestitles
-            .where((item) => item.toLowerCase().contains(query.toLowerCase())),
-        ...beautifyTitlesCategories1
-            .where((item) => item.toLowerCase().contains(query.toLowerCase())),
-        ...beautifyTitlesCategories2
-            .where((item) => item.toLowerCase().contains(query.toLowerCase())),
-        ...exploreCardTitles
-            .where((item) => item.toLowerCase().contains(query.toLowerCase())),
-      ];
+      allFilteredResults = results;
     });
   }
 
@@ -65,298 +62,298 @@ class _ExploreBannerState extends State<ExploreBanner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(
-        title: "Banner Maker",
-      ),
+      appBar: const MyAppBar(title: "Banner Maker"),
       body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              // Static Search Bar
-              TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: AppColor.darkGreen),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        child: Obx(() {
+          if (categoryController.categories.isEmpty) {
+            return const Center(
+              child: CircularProgressIndicator(color: AppColor.darkGreen),
+            );
+          }
+
+          final popularCategory = categoryController.categories
+              .where((category) => category.title == "Popular Categories")
+              .first;
+
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Enhanced Search Bar
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                  hintText: "Search categories . . . . . .",
-                  prefixIcon: const Icon(
-                    Icons.search,
-                    color: AppColor.darkGreen,
-                  ),
-                  suffix: GestureDetector(
-                    onTap: () {
-                      _searchController.clear();
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Icon(Icons.close, color: AppColor.darkGreen),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: "Search categories...",
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      prefixIcon:
+                          const Icon(Icons.search, color: AppColor.darkGreen),
+                      suffixIcon: _searchController.text.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.close,
+                                  color: AppColor.darkGreen),
+                              onPressed: () => _searchController.clear(),
+                            )
+                          : null,
+                      filled: true,
+                      fillColor: Colors.white,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(color: Colors.grey.shade200),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(color: AppColor.darkGreen),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 20,
+                      ),
                     ),
                   ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: AppColor.darkGreen)),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
                 ),
-              ),
 
-              const SizedBox(height: 10),
+                const SizedBox(height: 20),
 
-              //  Show only search results if user types something
-              if (_searchController.text.isNotEmpty)
-                SizedBox(
-                  height: 600,
-                  child: allFilteredResults.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: allFilteredResults.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              elevation: 0,
-                              borderOnForeground: false,
-                              child: ListTile(
-                                leading: const Icon(LucideIcons.circle),
-                                title: Text(allFilteredResults[index]),
+                // Search Results Section
+                if (_searchController.text.isNotEmpty)
+                  Container(
+                    height: 600,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 10,
+                          spreadRadius: 1,
+                        ),
+                      ],
+                    ),
+                    child: allFilteredResults.isNotEmpty
+                        ? ListView.separated(
+                            itemCount: allFilteredResults.length,
+                            separatorBuilder: (context, index) =>
+                                const Divider(),
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                leading: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.darkGreen.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Icon(
+                                    LucideIcons.layoutTemplate,
+                                    color: AppColor.darkGreen,
+                                  ),
+                                ),
+                                title: Text(
+                                  allFilteredResults[index],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                trailing: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 16,
+                                  color: AppColor.darkGreen,
+                                ),
                                 onTap: () => _navigateToTemplateScreen(
                                     allFilteredResults[index]),
-                              ),
-                            );
+                              );
+                            },
+                          )
+                        : const Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.search_off,
+                                  size: 48,
+                                  color: Colors.grey,
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  "No matching results found",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                  )
+                else
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Section Headers
+                      _buildSectionHeader(popularCategory.title),
+                      const SizedBox(height: 12),
+
+                      // Popular Categories Carousel
+                      SizedBox(
+                        height: 180,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: popularCategory.subCategories.length,
+                          itemBuilder: (context, index) {
+                            final subCategory =
+                                popularCategory.subCategories[index];
+                            return _buildPopularCategoryCard(subCategory);
                           },
-                        )
-                      : const Center(
-                          child: Text("No search results",
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey)),
                         ),
-                )
-              else // here show UI when search not search take place
-                const SizedBox(
-                  height: 5,
-                ),
-              //############################################################################
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Popular Categories",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              SizedBox(
-                height: 170,
-                width: MediaQuery.of(context).size.width,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: PopularCategories.PopularImages.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TemplatesScreen(
-                              selectedCategory:
-                                  CategoriesTitle.CategoriesTitleList[index],
-                            ),
-                          ),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 5),
-                            width: 220,
-                            height: 120,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
-                              ),
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                    PopularCategories.PopularImages[index],
-                                  ),
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                          Container(
-                            width: 220,
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                              color: AppColor.darkGreen,
-                              borderRadius: BorderRadius.vertical(
-                                  bottom: Radius.circular(10)),
-                            ),
-                            child: Center(
-                              child: Text(
-                                " ${CategoriesTitle.CategoriesTitleList[index]}",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
-                    );
-                  },
-                ),
-              ),
-              //###########################################################################
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Beautify Your Life Event",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 270, // Adjust height to fit text
-                width: MediaQuery.of(context).size.width,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: PopularCategories.PopularImages.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TemplatesScreen(
-                              selectedCategory:
-                                  BeautifyEvents1.beautifyEventsTitles1[index],
-                            ),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
+
+                      const SizedBox(height: 24),
+
+                      // Beautify Your Life Event Section
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 16),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // First Image inside a Container
-                            Container(
-                              width: 100,
-                              height: 123, // Increased height to fit text
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
-                                    blurRadius: 6,
-                                    spreadRadius: 2,
-                                    offset: const Offset(3, 3),
+                            // Beautify Your Life Event Section Header
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Beautify Your Life Event",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ],
-                                color: AppColor.darkGreen, // Background color
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: 100,
-                                    height: 100, // Image height
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      image: DecorationImage(
-                                        image: AssetImage(PopularCategories
-                                            .PopularImages[index]),
-                                        fit: BoxFit.cover,
-                                      ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+
+                            // Event Cards Grid
+                            SizedBox(
+                              height: 270,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                // Update itemCount to use the smaller list length to avoid index out of range
+                                itemCount: BeautifyEvents1
+                                    .beautifyEventsTitles1.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 16),
+                                    child: Column(
+                                      children: [
+                                        // First Event Card
+                                        _buildEventCard(
+                                          context,
+                                          image: PopularCategories
+                                              .beautifyEventPic1[index],
+                                          title: BeautifyEvents1
+                                              .beautifyEventsTitles1[index],
+                                          onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TemplatesScreen(
+                                                selectedCategory: BeautifyEvents1
+                                                        .beautifyEventsTitles1[
+                                                    index],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 12),
+                                        // Second Event Card
+                                        _buildEventCard(
+                                          context,
+                                          image: PopularCategories
+                                              .beautifyEventPic2[index],
+                                          title: BeautifyEvents2
+                                              .beautifyEventsTitles2[index],
+                                          onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TemplatesScreen(
+                                                selectedCategory: BeautifyEvents2
+                                                        .beautifyEventsTitles2[
+                                                    index],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 3,
-                                  ),
-                                  // Space between image and text
-                                  Text(
-                                    BeautifyEvents1
-                                        .beautifyEventsTitles1[index],
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
+                                  );
+                                },
                               ),
                             ),
 
-                            const SizedBox(height: 10),
-
-                            // Second Image inside a Container
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => TemplatesScreen(
-                                      selectedCategory: BeautifyEvents2
-                                          .beautifyEventsTitles2[index],
-                                    ),
-                                  ),
-                                );
-                              },
+                            // Explore More Categories Section
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 45),
                               child: Container(
-                                width: 100,
-                                height: 123, // Increased height to fit text
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.2),
-                                      blurRadius: 6,
-                                      spreadRadius: 2,
-                                      offset: const Offset(3, 3),
-                                    ),
-                                  ],
-                                  color: AppColor.darkGreen, // Background color
-                                ),
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 24),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      width: 100,
-                                      height: 100, // Image height
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              PopularCategories.PopularImages[
-                                                  (index + 1) %
-                                                      PopularCategories
-                                                          .PopularImages
-                                                          .length]),
-                                          fit: BoxFit.cover,
-                                        ),
+                                    const Text(
+                                      "Explore More Categories",
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black87,
                                       ),
                                     ),
-                                    const SizedBox(height: 3),
-                                    Text(
-                                      BeautifyEvents2
-                                          .beautifyEventsTitles2[index],
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w300,
+                                    const SizedBox(height: 16),
+                                    GridView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 1.5,
+                                        crossAxisSpacing: 12,
+                                        mainAxisSpacing: 12,
                                       ),
-                                      textAlign: TextAlign.center,
+                                      itemCount: categoryController.categories
+                                          .where((category) =>
+                                              category.subCategories.isEmpty)
+                                          .length,
+                                      itemBuilder: (context, index) {
+                                        var categories = categoryController
+                                            .categories
+                                            .where((category) =>
+                                                category.subCategories.isEmpty)
+                                            .toList();
+                                        return _buildCategoryCard(
+                                          context,
+                                          title: categories[index].title,
+                                          onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TemplatesScreen(
+                                                      selectedCategory:
+                                                          categories[index]
+                                                              .title),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -365,53 +362,93 @@ class _ExploreBannerState extends State<ExploreBanner> {
                           ],
                         ),
                       ),
-                    );
-                  },
-                ),
-              ),
-              //##########################################################################
-              const SizedBox(height: 5),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Explore More Categories",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    ],
+                  ),
+              ],
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title) {
+    return Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        child: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ));
+  }
+
+  Widget _buildPopularCategoryCard(SubCategory subCategory) {
+    return Container(
+      width: 220,
+      margin: const EdgeInsets.only(right: 16),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TemplatesScreen(
+              selectedCategory: subCategory.title,
+            ),
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(subCategory.thumbnail),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 5,
-              ),
-              // Display search results from ExploreCategories
-              SizedBox(
-                height: 720,
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: ExploreCategories.exploreCardTitle.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TemplatesScreen(
-                                selectedCategory:
-                                    ExploreCategories.exploreCardTitle[index],
-                              ),
-                            ),
-                          );
-                        },
-                        leading: const Icon(Icons.star,
-                            size: 30, color: Colors.blue), // Prefix icon
-                        title: Text(ExploreCategories.exploreCardTitle[index]),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 16,
+                ),
+                decoration: const BoxDecoration(
+                  color: AppColor.darkGreen,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        subCategory.title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    );
-                  },
+                    ),
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -420,4 +457,173 @@ class _ExploreBannerState extends State<ExploreBanner> {
       ),
     );
   }
+
+  Widget _buildEventCard(
+    BuildContext context, {
+    required String image,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 160,
+        height: 120,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                image,
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.cover,
+                cacheWidth: 320, // Add cache width for better performance
+                cacheHeight: 240, // Add cache height for better performance
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey[200],
+                    child: const Center(
+                      child: Icon(
+                        Icons.error_outline,
+                        color: Colors.red,
+                        size: 24,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withOpacity(0.5),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 5,
+              left: 6,
+              right: 12,
+              child: Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget _buildCategoryCard(
+  BuildContext context, {
+  required String title,
+  required VoidCallback onTap,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        gradient: LinearGradient(
+          colors: [
+            AppColor.darkGreen,
+            AppColor.darkGreen.withOpacity(0.8),
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColor.darkGreen.withOpacity(0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            right: -20,
+            bottom: -20,
+            child: Icon(
+              Icons.star,
+              size: 100,
+              color: Colors.white.withOpacity(0.1),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        'Explore',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

@@ -1,21 +1,17 @@
 class PopularCategories {
-  static const List<String> PopularImages = [
-    "assets/images/album_cover.jpg",
-    "assets/images/annoucment_pic.jpg",
-    "assets/images/instagram_post.jpg",
-    "assets/images/mazgine_cover.jpg",
-    "assets/images/photo_college.jpg",
+  static const List<String> beautifyEventPic1 = [
+    "assets/images/sport.jpg",
+    "assets/images/basant.jpg",
+    "assets/images/bakery.jpg",
+    "assets/images/fitness.jpg",
+    "assets/images/travel.jpg",
   ];
-}
-
-// Popular categories.....##############################################
-class CategoriesTitle {
-  static const List<String> CategoriesTitleList = [
-    "Album Covers",
-    "Annoucements",
-    "Instagram Posts",
-    "Magzine Cover",
-    "College Photo"
+  static const List<String> beautifyEventPic2 = [
+    "assets/images/networking.jpg",
+    "assets/images/forest.jpg",
+    "assets/images/culture.jpg",
+    "assets/images/flight.jpg",
+    "assets/images/cycling.jpg",
   ];
 }
 
