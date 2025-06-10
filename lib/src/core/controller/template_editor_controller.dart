@@ -212,7 +212,7 @@ class TemplateEditorController extends GetxController {
       'y': centerY,
       'value': text,
       'fontSize': baseFontSize,
-      'color': "#000000",
+      'color': "#800000",
       'fontWeight': 'normal',
       'fontfamily': fontFamily,
       'alignCenter': true,
@@ -505,12 +505,32 @@ class TemplateEditorController extends GetxController {
   void addNewImage(String imagePath) {
     saveState();
     final newId = 'image_${DateTime.now().millisecondsSinceEpoch}';
-    // Calculate initial image size based on canvas
-    double maxWidth = canvasWidth.value * 0.5;
-    double maxHeight = canvasHeight.value * 0.5;
 
-    double centerX = (canvasWidth.value - maxWidth) / 2;
-    double centerY = (canvasHeight.value - maxHeight) / 2;
+    // Get current context for MediaQuery
+    final context = templatekey.currentContext;
+    if (context == null) return;
+
+    // Calculate canvas dimensions using same logic as template
+    final canvasWidth = isDraftLoaded
+        ? 249.0
+        : (isNewCustomCanvas.value ? this.canvasWidth.value : 250.0);
+
+    final canvasHeight = isDraftLoaded
+        ? MediaQuery.of(context).size.width * (250 / 250)
+        : (isNewCustomCanvas.value
+            ? this.canvasHeight.value
+            : MediaQuery.of(context).size.width * (250 / 250));
+
+    // Calculate image size based on canvas dimensions
+    double smallerDimension =
+        canvasWidth < canvasHeight ? canvasWidth : canvasHeight;
+    double maxImageWidth = smallerDimension * 0.6; // 60% of smaller dimension
+    double maxImageHeight =
+        maxImageWidth * (3 / 4); // maintain 4:3 aspect ratio
+
+    // Calculate center position
+    double centerX = (canvasWidth - maxImageWidth) / 2;
+    double centerY = (canvasHeight - maxImageHeight) / 2;
 
     elements.add({
       'id': newId,
@@ -518,11 +538,12 @@ class TemplateEditorController extends GetxController {
       'x': centerX,
       'y': centerY,
       'src': imagePath,
-      'width': maxWidth,
-      'height': maxHeight,
+      'width': maxImageWidth,
+      'height': maxImageHeight,
       'isDeleted': false,
-      'aspectRatio': maxWidth / maxHeight,
+      'aspectRatio': maxImageWidth / maxImageHeight,
     });
+
     selectedElementId.value = newId;
     update();
   }
@@ -530,10 +551,21 @@ class TemplateEditorController extends GetxController {
   final ImagePicker picker = ImagePicker();
 
   // Pick image from gallery or camer
+
   Future<void> pickImageForElement(ImageSource source) async {
-    final XFile? image = await picker.pickImage(source: source);
-    if (image != null) {
-      addNewImage(image.path);
+    try {
+      final XFile? image = await picker.pickImage(source: source);
+      if (image != null) {
+        addNewImage(image.path);
+      }
+    } on PlatformException catch (e) {
+      if (e.code == 'photo_access_denied' || e.code == 'camera_access_denied') {
+        _handlePermissionDenied();
+      } else {
+        Get.snackbar('Error', 'Failed to access images: ${e.message}');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Unexpected error: ${e.toString()}');
     }
   }
 
@@ -591,7 +623,7 @@ class TemplateEditorController extends GetxController {
   }
 
   void scaleElement(String id, double scale) {
-    saveState();
+    // saveState();
     try {
       final index = elements.indexWhere((e) => e['id'] == id);
       if (index == -1) throw Exception('Element not found');
