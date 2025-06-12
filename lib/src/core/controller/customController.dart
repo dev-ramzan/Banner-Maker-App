@@ -18,9 +18,9 @@ class CustomController extends GetxController {
     aspectRatios.assignAll([
       {
         'name': 'Custom Size',
-        'ratio': 1.0,
-        'width': 1,
-        'height': 1,
+        'ratio': 0,
+        'width': 0,
+        'height': 0,
         'image': "assets/images/createScreen/customSize.png",
         'namePosition': {
           'x': 35.0.obs,

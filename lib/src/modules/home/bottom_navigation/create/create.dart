@@ -24,7 +24,7 @@ class CreateBannerScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 1, bottom: 20),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 0, bottom: 60),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -50,7 +50,6 @@ class CreateBannerScreen extends StatelessWidget {
               }
               return _CustomSizeControls();
             }),
-            const SizedBox(height: 60),
           ],
         ),
       ),
@@ -250,7 +249,7 @@ class _CustomSizeControls extends GetView<CustomController> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 18),
                 Row(
                   children: [
                     Expanded(
@@ -286,7 +285,7 @@ class _CustomSizeControls extends GetView<CustomController> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 18),
                 Row(
                   children: [
                     Expanded(
@@ -331,7 +330,7 @@ class _CustomSizeControls extends GetView<CustomController> {
                           if (width > 0 && height > 0) {
                             controller.updateCustomSize(width, height);
                             controller.showCustomFields.value = true;
-                            Get.to(() => EditingDetailsScreen(),
+                            Get.to(() => const EditingDetailsScreen(),
                                 transition: Transition.rightToLeft);
                           }
                         },
